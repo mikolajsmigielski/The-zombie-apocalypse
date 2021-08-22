@@ -7,6 +7,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     Rigidbody2D rigidbody;
+    Crosshair crosshair;
     [SerializeField]
     float speed = 2f;
     [SerializeField]
@@ -15,6 +16,7 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
+        crosshair = FindObjectOfType<Crosshair>();
     }
     
     void Start()
@@ -37,12 +39,13 @@ public class Player : MonoBehaviour
         WalkingDirection = WalkingDirection.normalized;
         WalkingDirection *= Input.GetKey(KeyCode.LeftShift) ? runSpeed : speed;
 
-        
-        rigidbody.velocity = WalkingDirection;
+
+        rigidbody.velocity = Vector2.Lerp(rigidbody.velocity, WalkingDirection, Time.deltaTime * 4f);
     }
     void RotationUpdate()
     {
-        var targetRotation = rigidbody.velocity;
+        var delta = crosshair.transform.position - transform.position;
+        var targetRotation = (Vector2)delta;
         transform.right = Vector2.Lerp(transform.right, targetRotation, Time.deltaTime * 10f);
     }
 }
