@@ -6,26 +6,43 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class Player : MonoBehaviour
 {
+    Rigidbody2D rigidbody;
     [SerializeField]
     float speed = 2f;
-    // Start is called before the first frame update
+    [SerializeField]
+    float runSpeed = 4f;
+
+    private void Awake()
+    {
+        rigidbody = GetComponent<Rigidbody2D>();
+    }
+    
     void Start()
     {
         
     }
 
-    // Update is called once per frame
+    
     void Update()
+    {
+        MovmentUpdate();
+        RotationUpdate();
+    }
+    void MovmentUpdate()
     {
         var WalkingDirection = Vector2.zero;
 
         WalkingDirection += Vector2.up * Input.GetAxis("Vertical");
         WalkingDirection += Vector2.right * Input.GetAxis("Horizontal");
-        WalkingDirection = WalkingDirection.normalized * speed;
+        WalkingDirection = WalkingDirection.normalized;
+        WalkingDirection *= Input.GetKey(KeyCode.LeftShift) ? runSpeed : speed;
 
-        var rigidbody = GetComponent<Rigidbody2D>();
+        
         rigidbody.velocity = WalkingDirection;
-
-        transform.right = WalkingDirection;
+    }
+    void RotationUpdate()
+    {
+        var targetRotation = rigidbody.velocity;
+        transform.right = Vector2.Lerp(transform.right, targetRotation, Time.deltaTime * 10f);
     }
 }
