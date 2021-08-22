@@ -8,6 +8,8 @@ public class PlayerShooting : MonoBehaviour
     GameObject Bullet;
     [SerializeField]
     float BulletSpeed = 5f;
+    [SerializeField]
+    Vector2 ShootPoint;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,7 +25,7 @@ public class PlayerShooting : MonoBehaviour
     void ShootBullet()
     {
         var bullet = Instantiate(Bullet);
-        bullet.transform.position = transform.position;
+        bullet.transform.position = transform.position + transform.rotation * (Vector3)ShootPoint;
         bullet.transform.rotation = transform.rotation;
 
         var bulletRigidbody = bullet.GetComponent<Rigidbody2D>();
