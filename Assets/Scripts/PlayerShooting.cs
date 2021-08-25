@@ -1,22 +1,41 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerShooting : MonoBehaviour
 {
     [SerializeField]
-    GameObject Bullet;
+    GameObject BulletPrefab;
     [SerializeField]
     float BulletSpeed = 5f;
     [SerializeField]
     Vector2 ShootPoint;
-    // Start is called before the first frame update
-    void Start()
+
+    private int bullets;
+    public int Bullets
     {
-        
+        get
+        {
+            return bullets;
+        }
+        private set
+        {
+            bullets = value;
+            if (OnBulletsChanged != null)
+                OnBulletsChanged.Invoke(bullets);
+        }
     }
 
-    // Update is called once per frame
+    public event Action<int> OnBulletsChanged;
+
+    
+    void Start()
+    {
+        Bullets = 5;
+    }
+
+    
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -24,7 +43,9 @@ public class PlayerShooting : MonoBehaviour
     }
     void ShootBullet()
     {
-        var bullet = Instantiate(Bullet);
+        if (Bullets == 0) return;
+        Bullets--;
+        var bullet = Instantiate(BulletPrefab);
         bullet.transform.position = transform.position + transform.rotation * (Vector3)ShootPoint;
         bullet.transform.rotation = transform.rotation;
 
