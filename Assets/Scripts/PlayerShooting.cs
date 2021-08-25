@@ -52,4 +52,10 @@ public class PlayerShooting : MonoBehaviour
         var bulletRigidbody = bullet.GetComponent<Rigidbody2D>();
         bulletRigidbody.velocity = transform.right * BulletSpeed;
     }
+    public void CollectBullets(int amount)
+    {
+        if (amount < 0)
+            amount = 0;
+        Bullets += amount;
+    }
 }
