@@ -7,11 +7,17 @@ public class GUI : MonoBehaviour
 {
     [SerializeField]
     Text BulletsCounter;
+    [SerializeField]
+    Text HealthCounter;
     void Awake()
     {
         FindObjectOfType<PlayerShooting>().OnBulletsChanged += bullets =>
         {
             BulletsCounter.text = bullets.ToString();
+        };
+        FindObjectOfType<Entity>().OnHealthChange += health =>
+        {
+            HealthCounter.text = health.ToString();
         };
     }
 
