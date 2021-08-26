@@ -15,7 +15,7 @@ public class GUI : MonoBehaviour
         {
             BulletsCounter.text = bullets.ToString();
         };
-        FindObjectOfType<Entity>().OnHealthChange += health =>
+        FindObjectOfType<Player>().GetComponent<Entity>().OnHealthChange += health =>
         {
             HealthCounter.text = health.ToString();
         };

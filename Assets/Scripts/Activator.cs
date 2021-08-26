@@ -39,12 +39,13 @@ public class Activator : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        CheckIfPlayer(collision);
+        if (!CheckIfPlayer(collision))
+            return;
         Active = true;
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        CheckIfPlayer(collision);
+        
         Active = false;
     }
     bool CheckIfPlayer(Collider2D collider)
