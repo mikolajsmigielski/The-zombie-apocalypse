@@ -6,7 +6,7 @@ using UnityEngine;
 public class Entity : MonoBehaviour
 {
     [SerializeField]
-    float InitialHealth = 3f;
+    float InitialHealth = 20f;
 
     private float health;
     public float Health
@@ -20,13 +20,12 @@ public class Entity : MonoBehaviour
 
             health = value;
 
-            if (health <= 0)
-                health = 0;
+            
 
             if (OnHealthChange != null)
                 OnHealthChange.Invoke(health);
 
-            if (health == 0)
+            if (health <= 0)
             {
                 if (OnKilled != null)
                     OnKilled.Invoke();
