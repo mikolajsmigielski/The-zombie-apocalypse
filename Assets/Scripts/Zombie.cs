@@ -9,6 +9,7 @@ public class Zombie : MonoBehaviour
 {
     Rigidbody2D Rigidbody;
     Vector2 TargetPosition;
+    Player TargetPlayer;
 
     [SerializeField]
     float Speed = 2f;
@@ -28,6 +29,13 @@ public class Zombie : MonoBehaviour
     }
     void Update()
     {
+        var targetSpeed = Speed;
+        if (TargetPlayer != null)
+        {
+            TargetPosition = TargetPlayer.transform.position;
+            targetSpeed *= 2f;
+        }
+            
         var direction = (Vector3)TargetPosition - transform.position;
         var targetVelocity = direction.normalized * Speed / 2f;
 
@@ -35,5 +43,20 @@ public class Zombie : MonoBehaviour
         Rigidbody.velocity = Vector3.Lerp(Rigidbody.velocity, targetVelocity, Time.deltaTime / 2f);
 
             transform.right = direction;
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        var player = collision.gameObject.GetComponent<Player>();
+
+        if (player != null)
+            TargetPlayer = player;
+
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        var player = collision.gameObject.GetComponent<Player>();
+
+        if (player != null)
+            TargetPlayer = null;
     }
 }
