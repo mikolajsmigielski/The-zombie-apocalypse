@@ -4,6 +4,7 @@ using UnityEngine;
 
 
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class Player : MonoBehaviour
 {
     Rigidbody2D rigidbody;
@@ -21,7 +22,7 @@ public class Player : MonoBehaviour
     
     void Start()
     {
-        
+        GetComponent<Entity>().OnKilled += () => Application.Quit();
     }
 
     

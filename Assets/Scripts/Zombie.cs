@@ -13,6 +13,11 @@ public class Zombie : MonoBehaviour
 
     [SerializeField]
     float Speed = 2f;
+
+    [SerializeField]
+    float AttackDistance = 0.5f;
+    [SerializeField]
+    float AttackDamage = 2f;
     void Start()
     {
         Rigidbody = GetComponent<Rigidbody2D>();
@@ -29,21 +34,37 @@ public class Zombie : MonoBehaviour
     }
     void Update()
     {
+        UpdateMovment();
+        UpdateAttack();
+    }
+
+    void UpdateMovment()
+    {
         var targetSpeed = Speed;
         if (TargetPlayer != null)
         {
             TargetPosition = TargetPlayer.transform.position;
             targetSpeed *= 2f;
         }
-            
+
         var direction = (Vector3)TargetPosition - transform.position;
         var targetVelocity = direction.normalized * Speed / 2f;
 
 
         Rigidbody.velocity = Vector3.Lerp(Rigidbody.velocity, targetVelocity, Time.deltaTime / 2f);
 
-            transform.right = direction;
+        transform.right = direction;
     }
+    void UpdateAttack()
+    {
+        if (TargetPlayer == null)
+            return;
+        var distance = (TargetPlayer.transform.position - transform.position).magnitude;
+        if (distance > AttackDistance)
+            return;
+        TargetPlayer.GetComponent<Entity>().Health -= AttackDamage * Time.deltaTime;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         var player = collision.gameObject.GetComponent<Player>();

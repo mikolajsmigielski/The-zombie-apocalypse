@@ -17,7 +17,7 @@ public class GUI : MonoBehaviour
         };
         FindObjectOfType<Player>().GetComponent<Entity>().OnHealthChange += health =>
         {
-            HealthCounter.text = health.ToString();
+            HealthCounter.text = health.ToString("N0");
         };
     }
 
