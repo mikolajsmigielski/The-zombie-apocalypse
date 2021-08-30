@@ -53,7 +53,7 @@ public class Zombie : MonoBehaviour
 
         Rigidbody.velocity = Vector3.Lerp(Rigidbody.velocity, targetVelocity, Time.deltaTime / 2f);
 
-        transform.right = direction;
+        transform.right = (Vector2)direction;
     }
     void UpdateAttack()
     {
